@@ -122,3 +122,46 @@ exports.loginEmployee = async (req, res) => {
   }
   
 };
+/**
+ * ✅ Get All Employees
+ */
+exports.getAllEmployees = async (req, res) => {
+  try {
+    const employees = await Employee.find().select("-password");
+
+    if (!employees.length) {
+      return res.status(404).json({ msg: "No employees found" });
+    }
+
+    res.status(200).json({
+      msg: "Employees fetched successfully",
+      count: employees.length,
+      employees,
+    });
+  } catch (err) {
+    console.error("Get all employees error:", err);
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+
+/**
+ * ✅ Get Single Employee by ID
+ */
+exports.getEmployeeById = async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id).select("-password");
+
+    if (!employee) {
+      return res.status(404).json({ msg: "Employee not found" });
+    }
+
+    res.status(200).json({
+      msg: "Employee fetched successfully",
+      employee,
+    });
+  } catch (err) {
+    console.error("Get employee by ID error:", err);
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
