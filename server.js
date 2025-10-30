@@ -12,6 +12,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req,res)=>{
+    res.status(200).json({
+        message:"welcome..."
+    })
+})
+
 app.use("/api/auth", require("./routes/authRoutes"));
 //app.use('/api/employees', personalDetailsRoutes);
 
