@@ -1,3 +1,4 @@
+// routes/employeeRoutes.js
 const express = require("express");
 const router = express.Router();
 
@@ -6,6 +7,7 @@ const {
   loginEmployee,
   getAllEmployees,
   getEmployeeById,
+  searchEmployees, // optional search handler
 } = require("../controllers/employeeController");
 
 // ✅ Register
@@ -17,7 +19,12 @@ router.post("/login", loginEmployee);
 // ✅ Get all employees
 router.get("/all", getAllEmployees);
 
-// ✅ Get employee by ID
+// ✅ Search employees (use ?q=term)
+if (typeof searchEmployees === "function") {
+  router.get("/search", searchEmployees);
+}
+
+// ✅ Get employee by ID (keep this last)
 router.get("/:id", getEmployeeById);
 
 module.exports = router;
